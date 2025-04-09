@@ -1,0 +1,28 @@
+# Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+# Specific instructions for Google bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+# Prevent crawling of unnecessary files and directories
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.css$
+
+# Sitemap location
+Sitemap: https://www.wadirum.org/sitemap.xml
