@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { sendContactEmail } from "@/actions/send-contact-email"
+import { sendContactEmail } from "@/app/actions/send-contact-email" // Updated import path
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)

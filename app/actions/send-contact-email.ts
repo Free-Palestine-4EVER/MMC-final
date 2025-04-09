@@ -32,7 +32,7 @@ export async function sendContactEmail(formData: FormData) {
       to: ["mohammed.mutlak.camp@gmail.com"],
       subject: `New Contact Form Submission from ${name}`,
       text: emailContent,
-      reply_to: email,
+      replyTo: email,
     })
 
     if (error) {
