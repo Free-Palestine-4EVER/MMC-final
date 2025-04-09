@@ -68,7 +68,6 @@ const tourOptions: TourOption[] = [
       { minPeople: 2, maxPeople: 3, price: 90 },
       { minPeople: 4, maxPeople: 6, price: 75 },
     ],
-    childrenNote: "Children 5-12 Years: Half Price. Kids from 0-5 Years: FREE",
   },
   {
     id: "hot-air-balloon",
