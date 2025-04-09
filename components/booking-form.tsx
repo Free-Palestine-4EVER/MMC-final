@@ -55,9 +55,9 @@ const tourOptions: TourOption[] = [
     id: "beduin-way",
     name: "The Beduin Way",
     prices: [
-      { minPeople: 1, maxPeople: 1, price: 100 },
-      { minPeople: 2, maxPeople: 3, price: 85 },
-      { minPeople: 4, maxPeople: 6, price: 75 },
+      { minPeople: 1, maxPeople: 1, price: 150 },
+      { minPeople: 2, maxPeople: 5, price: 100 },
+      { minPeople: 6, maxPeople: 100, price: 85 },
     ],
   },
   {
@@ -68,6 +68,7 @@ const tourOptions: TourOption[] = [
       { minPeople: 2, maxPeople: 3, price: 90 },
       { minPeople: 4, maxPeople: 6, price: 75 },
     ],
+    childrenNote: "Children 5-12 Years: Half Price. Kids from 0-5 Years: FREE",
   },
   {
     id: "hot-air-balloon",
@@ -81,18 +82,18 @@ const tourOptions: TourOption[] = [
     id: "burdah-arch",
     name: "Burdah Arch Scrambling",
     prices: [
-      { minPeople: 1, maxPeople: 1, price: 80 },
-      { minPeople: 2, maxPeople: 3, price: 70 },
-      { minPeople: 4, maxPeople: 6, price: 60 },
+      { minPeople: 1, maxPeople: 1, price: 120 },
+      { minPeople: 2, maxPeople: 5, price: 80 },
+      { minPeople: 6, maxPeople: 100, price: 65 },
     ],
   },
   {
     id: "all-in-one",
     name: "All in One Day",
     prices: [
-      { minPeople: 1, maxPeople: 1, price: 90 },
-      { minPeople: 2, maxPeople: 3, price: 80 },
-      { minPeople: 4, maxPeople: 6, price: 70 },
+      { minPeople: 1, maxPeople: 1, price: 110 },
+      { minPeople: 2, maxPeople: 5, price: 80 },
+      { minPeople: 6, maxPeople: 100, price: 65 },
     ],
   },
   {
