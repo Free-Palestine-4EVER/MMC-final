@@ -2,14 +2,24 @@ import { BookingForm } from "@/components/booking-form"
 import Image from "next/image"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ContactForm } from "@/components/contact-form"
 
 export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-amber-500 to-amber-600 py-16 text-center text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold md:text-5xl">Contact Us</h1>
+      <section
+        className="relative py-20 bg-cover bg-center"
+        style={{ backgroundImage: "url(/images/wadi-rum-landscape.jpg)" }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl text-white mx-auto md:mx-0">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center md:text-left">Contact Us</h1>
+            <p className="text-xl mb-6 text-center md:text-left">
+              Get in touch to plan your perfect Wadi Rum adventure
+            </p>
+          </div>
         </div>
       </section>
 
@@ -30,8 +40,8 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">Phone</h3>
                 <p className="text-gray-700 mb-2">Call us directly:</p>
-                <a href="tel:+962777424937" className="text-amber-600 hover:text-amber-700 font-medium break-words">
-                  +962 777 424 937
+                <a href="tel:+962777424837" className="text-amber-600 hover:text-amber-700 font-medium break-words">
+                  +962 777 424 837
                 </a>
               </div>
 
@@ -59,9 +69,14 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Contact Form */}
+            <div className="mt-16 max-w-md mx-auto">
+              <ContactForm />
+            </div>
+
             <div className="mt-12">
               <a
-                href="https://wa.me/962777424937"
+                href="https://wa.link/grbinm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-md bg-green-500 px-8 py-3 text-white hover:bg-green-600 transition-colors"
@@ -149,7 +164,7 @@ export default function ContactPage() {
           <div className="mt-8">
             <Button asChild className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 h-auto">
               <a
-                href="https://wa.me/962777424937"
+                href="https://wa.link/grbinm"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center"
