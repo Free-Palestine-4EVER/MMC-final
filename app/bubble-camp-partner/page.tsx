@@ -188,7 +188,7 @@ export default function BubbleCampPartnerPage() {
                 </div>
               </div>
               <div className="mb-6">
-                <div className="text-lg font-bold text-amber-600">Price: 120 JOD per person</div>
+                <div className="text-lg font-bold text-amber-600">Price: 80 JOD per person</div>
                 <div className="text-sm text-gray-600">(Based on double occupancy)</div>
               </div>
               <Link href="/contact-us">
