@@ -1,183 +1,309 @@
-import { BookingForm } from "@/components/booking-form"
+"use client"
+
 import Image from "next/image"
-import { Mail, Phone, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ContactForm } from "@/components/contact-form"
+import { SiteFooter } from "@/components/site-footer"
+import { SiteHeader } from "@/components/site-header"
+import { WhatsAppChat } from "@/components/whatsapp-chat"
+import { sendContactEmail } from "@/app/actions/send-contact-email"
+import { useState } from "react"
+import { SubmitButton, FormStatus } from "./contact-form"
 
 export default function ContactPage() {
+  const [formState, setFormState] = useState<{
+    success?: boolean
+    message?: string
+  } | null>(null)
+
+  async function handleSubmit(formData: FormData) {
+    try {
+      const result = await sendContactEmail(formData)
+
+      if (result.success) {
+        setFormState({
+          success: true,
+          message: "Your message has been sent successfully! We'll get back to you soon.",
+        })
+        // Reset the form
+        const form = document.getElementById("contact-form") as HTMLFormElement
+        if (form) form.reset()
+      } else {
+        setFormState({
+          success: false,
+          message: result.error || "Failed to send your message. Please try again.",
+        })
+      }
+    } catch (error) {
+      setFormState({
+        success: false,
+        message: "An unexpected error occurred. Please try again later.",
+      })
+      console.error("Contact form error:", error)
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section
-        className="relative py-20 bg-cover bg-center"
-        style={{ backgroundImage: "url(/images/wadi-rum-landscape.jpg)" }}
-      >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl text-white mx-auto md:mx-0">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center md:text-left">Contact Us</h1>
-            <p className="text-xl mb-6 text-center md:text-left">
-              Get in touch to plan your perfect Wadi Rum adventure
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Information */}
-      <section className="py-16 bg-white">
-        <div className="container">
-          <div className="mx-auto max-w-5xl text-center mb-12">
-            <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-            <p className="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
-              We're here to help you plan your perfect desert adventure. Feel free to reach out to us with any questions
-              or to book your experience.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              <div className="flex flex-col items-center p-8 rounded-lg shadow-md bg-white">
-                <div className="bg-amber-100 p-4 rounded-full mb-4">
-                  <Phone className="h-6 w-6 text-amber-600" />
+      <SiteHeader />
+      <main className="flex-1">
+        <section className="py-12 md:py-16 lg:py-20">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+              <div className="space-y-4">
+                <div className="inline-block rounded-lg bg-amber-100 px-3 py-1 text-sm text-amber-700">Contact Us</div>
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Get in Touch</h1>
+                <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Have questions about our tours or need help planning your Wadi Rum adventure? We&apos;re here to help!
+                  Fill out the form and we&apos;ll get back to you as soon as possible.
+                </p>
+                <div className="space-y-2">
+                  <h3 className="font-semibold">Contact Information</h3>
+                  <div className="flex items-center gap-2">
+                    <PhoneIcon className="h-4 w-4 text-amber-600" />
+                    <span>+962777424837</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MailIcon className="h-4 w-4 text-amber-600" />
+                    <span>mohammed.mutlak.camp@gmail.com</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPinIcon className="h-4 w-4 text-amber-600" />
+                    <span>Wadi Rum Village, Jordan</span>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Phone</h3>
-                <p className="text-gray-700 mb-2">Call us directly:</p>
-                <a href="tel:+962777424837" className="text-amber-600 hover:text-amber-700 font-medium break-words">
-                  +962 777 424 837
-                </a>
-              </div>
-
-              <div className="flex flex-col items-center p-8 rounded-lg shadow-md bg-white">
-                <div className="bg-amber-100 p-4 rounded-full mb-4">
-                  <Mail className="h-6 w-6 text-amber-600" />
+                <div className="space-y-2">
+                  <h3 className="font-semibold">Follow Us</h3>
+                  <div className="flex gap-4">
+                    <a
+                      href="https://www.facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-amber-600"
+                    >
+                      <FacebookIcon className="h-5 w-5" />
+                      <span className="sr-only">Facebook</span>
+                    </a>
+                    <a
+                      href="https://www.instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-amber-600"
+                    >
+                      <InstagramIcon className="h-5 w-5" />
+                      <span className="sr-only">Instagram</span>
+                    </a>
+                    <a
+                      href="https://www.twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-amber-600"
+                    >
+                      <TwitterIcon className="h-5 w-5" />
+                      <span className="sr-only">Twitter</span>
+                    </a>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Email</h3>
-                <p className="text-gray-700 mb-2">Send us an email:</p>
-                <a
-                  href="mailto:mohammed.mutlak.camp@gmail.com"
-                  className="text-amber-600 hover:text-amber-700 font-medium break-words"
-                >
-                  mohammed.mutlak.camp@gmail.com
-                </a>
               </div>
-
-              <div className="flex flex-col items-center p-8 rounded-lg shadow-md bg-white">
-                <div className="bg-amber-100 p-4 rounded-full mb-4">
-                  <MapPin className="h-6 w-6 text-amber-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Location</h3>
-                <p className="text-gray-700 mb-2">Find us at:</p>
-                <p className="text-center">Wadi Rum Protected Area, Jordan</p>
+              <div className="space-y-4 rounded-lg border bg-card p-6 shadow-sm">
+                <h3 className="text-xl font-bold">Send Us a Message</h3>
+                <form id="contact-form" action={handleSubmit} className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="name"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Name
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="email"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Enter your email"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="message"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Enter your message"
+                      required
+                    ></textarea>
+                  </div>
+                  <SubmitButton />
+                  <FormStatus formState={formState} />
+                </form>
               </div>
             </div>
-
-            {/* Contact Form */}
-            <div className="mt-16 max-w-md mx-auto">
-              <ContactForm />
-            </div>
-
-            <div className="mt-12">
-              <a
-                href="https://wa.link/grbinm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-md bg-green-500 px-8 py-3 text-white hover:bg-green-600 transition-colors"
-              >
-                <svg className="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                Chat on WhatsApp
-              </a>
+          </div>
+        </section>
+        <section className="py-12 md:py-16 lg:py-20 bg-amber-50">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+              <div className="space-y-4">
+                <h2 className="text-3xl font-bold tracking-tighter">Find Us in Wadi Rum</h2>
+                <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Our camp is located in the heart of Wadi Rum, surrounded by stunning desert landscapes and ancient
+                  rock formations.
+                </p>
+              </div>
+              <div className="aspect-video overflow-hidden rounded-lg">
+                <Image
+                  src="/images/jordan-map.jpg"
+                  alt="Map of Jordan showing Wadi Rum location"
+                  width={800}
+                  height={450}
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Booking Form Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Book Your Trip Now</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Ready to experience the magic of Wadi Rum? Use our booking form to reserve your desert adventure today.
-            </p>
-          </div>
-          <div className="mx-auto max-w-lg">
-            <BookingForm />
-          </div>
-        </div>
-      </section>
-
-      {/* Support Team */}
-      <section className="bg-gradient-to-r from-amber-500 to-amber-600 py-16 text-white">
-        <div className="container text-center">
-          <h2 className="mb-4 text-2xl font-bold">Our Support Team</h2>
-          <h3 className="mb-8 text-4xl font-bold">We're here to help, 24/7.</h3>
-          <p className="mb-12 text-lg">Connect with our expert travel consultants to plan your next trip.</p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/images/team-1.jpg"
-                alt="Team Member"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/images/team-2.jpg"
-                alt="Team Member"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/images/team-3.jpg"
-                alt="Team Member"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/images/team-4.jpg"
-                alt="Team Member"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="h-16 w-16 overflow-hidden rounded-full">
-              <Image
-                src="/images/team-5.jpg"
-                alt="Team Member"
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <Button asChild className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 h-auto">
-              <a
-                href="https://wa.link/grbinm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center"
-              >
-                <svg className="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                Chat on WhatsApp
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </main>
+      <SiteFooter />
+      <WhatsAppChat />
     </div>
+  )
+}
+
+function FacebookIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  )
+}
+
+function InstagramIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  )
+}
+
+function MailIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  )
+}
+
+function MapPinIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  )
+}
+
+function PhoneIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  )
+}
+
+function TwitterIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+    </svg>
   )
 }
